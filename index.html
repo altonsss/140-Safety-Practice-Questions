@@ -3,116 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>산업안전 및 재해예방 20문항 종합 평가</title>
+    <title>산업안전 140문항 전체 정답 및 해설집</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         body { font-family: 'Pretendard', sans-serif; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #fff !important; }
+            .page-break { page-break-inside: avoid; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen text-slate-800">
-    <div id="app" class="max-w-4xl mx-auto p-4 md:p-8">
-        <!-- Header -->
-        <header class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-6 flex justify-between items-center">
+<body class="bg-slate-100 min-h-screen text-slate-800 p-4 md:p-8">
+    <div class="max-w-5xl mx-auto">
+        <header class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-                <h1 class="text-2xl font-bold text-slate-900">산업안전 종합 평가</h1>
-                <p class="text-sm text-slate-500 mt-1">임직원 안전 숙지도 평가 (문제은행 140문항 중 무작위 20문항 출제)</p>
+                <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 font-semibold rounded-full text-xs mb-2">임직원 사전 자율 학습용</span>
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-900">산업안전 및 재해예방 140문항 해설집</h1>
+                <p class="text-sm text-slate-500 mt-1">평가 대비 전체 문제은행 정답 및 핵심 해설</p>
             </div>
-            <div id="user-info" class="hidden text-right">
-                <span id="user-display-name" class="font-semibold text-blue-600 block"></span>
-                <span id="user-display-dept" class="text-xs text-slate-500"></span>
+            <div class="no-print flex gap-2 w-full md:w-auto">
+                <button onclick="window.print()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg text-sm transition shadow-sm flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    PDF / 인쇄하기
+                </button>
             </div>
         </header>
 
-        <!-- Login Screen -->
-        <div id="login-screen" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 text-center max-w-md mx-auto my-12">
-            <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-            </div>
-            <h2 class="text-xl font-bold mb-2">응시자 정보 입력</h2>
-            <p class="text-sm text-slate-500 mb-6">성명과 지사를 입력하신 후 시험을 시작하세요.</p>
-            
-            <form id="start-form" onsubmit="startQuiz(event)" class="space-y-4 text-left">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">성명</label>
-                    <input type="text" id="user-name" required placeholder="홍길동" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">소속 / 지사</label>
-                    <input type="text" id="user-dept" required placeholder="예: 충청지역본부" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">출제 평가 유형</label>
-                    <div class="w-full px-4 py-3 rounded-lg border border-slate-200 bg-slate-100 text-slate-600 text-sm font-semibold flex justify-between items-center">
-                        <span>20문항 (기본 평가)</span>
-                        <span class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded">고정</span>
-                    </div>
-                </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition shadow-md mt-2">
-                    시험 시작하기
-                </button>
-            </form>
+        <!-- 필터 / 검색 바 -->
+        <div class="no-print bg-white rounded-xl p-4 shadow-sm border border-slate-200 mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
+            <input type="text" id="search-input" onkeyup="filterQuestions()" placeholder="문제 키워드 또는 카테고리 검색..." class="w-full md:w-80 px-4 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+            <span id="question-count-badge" class="text-xs text-slate-500 font-semibold">총 140문항 표시 중</span>
         </div>
 
-        <!-- Quiz Screen -->
-        <div id="quiz-screen" class="hidden">
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 mb-6">
-                <div class="flex justify-between items-center mb-2 text-sm font-semibold">
-                    <span class="text-slate-600">진행률 <span id="current-num" class="text-blue-600">1</span> / <span id="total-num">20</span></span>
-                    <span id="timer" class="text-amber-600 bg-amber-50 px-3 py-1 rounded-full text-xs font-bold">남은 시간: --:--</span>
-                </div>
-                <div class="w-full bg-slate-100 rounded-full h-2.5">
-                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style="width: 5%"></div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 mb-6">
-                <span id="question-category" class="inline-block px-3 py-1 bg-slate-100 text-slate-600 rounded-md text-xs font-medium mb-3">카테고리</span>
-                <h3 id="question-text" class="text-lg md:text-xl font-bold text-slate-900 mb-6 leading-relaxed">문제가 여기에 표시됩니다.</h3>
-                <div id="options-container" class="space-y-3"></div>
-            </div>
-
-            <div class="flex justify-between items-center">
-                <button id="prev-btn" onclick="prevQuestion()" class="px-5 py-2.5 rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-100 font-medium text-sm transition">이전 문제</button>
-                <button id="next-btn" onclick="nextQuestion()" class="px-6 py-2.5 rounded-lg bg-blue-600 text-white font-medium text-sm hover:bg-blue-700 transition shadow">다음 문제</button>
-            </div>
-        </div>
-
-        <!-- Result Screen -->
-        <div id="result-screen" class="hidden bg-white rounded-2xl p-8 shadow-sm border border-slate-200 text-center my-6">
-            <div id="result-icon" class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"></div>
-            <h2 id="result-title" class="text-2xl font-bold mb-1"></h2>
-            <p id="result-subtitle" class="text-slate-500 mb-6 text-sm"></p>
-
-            <div class="bg-slate-50 rounded-xl p-6 max-w-sm mx-auto mb-8 grid grid-cols-2 gap-4">
-                <div>
-                    <span class="text-xs text-slate-400 block mb-1">최종 점수</span>
-                    <span id="score-text" class="text-3xl font-extrabold text-blue-600">0점</span>
-                </div>
-                <div>
-                    <span class="text-xs text-slate-400 block mb-1">정답률</span>
-                    <span id="accuracy-text" class="text-3xl font-extrabold text-slate-800">0%</span>
-                </div>
-            </div>
-
-            <div id="submit-status" class="mb-6 text-xs text-slate-500 font-medium"></div>
-
-            <div class="space-x-3">
-                <button onclick="downloadResult()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-sm font-medium transition">결과서 다운로드 (TXT)</button>
-                <button onclick="location.reload()" class="px-5 py-2.5 border border-slate-300 text-slate-700 hover:bg-slate-100 rounded-lg text-sm font-medium transition">다시 응시하기</button>
-            </div>
-        </div>
+        <div id="questions-container" class="space-y-4"></div>
     </div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTcfN-Hw8PNlo7n81mhUbt4bRDwVhG_LQ0hVNuHSvjs70qLG9NAz6-Ch-ykK43nnDJ/exec"; 
-
-        const categories = ["위험성평가", "아차사고 예방", "추락 방지 및 안전대", "화재 대응 및 대피", "자연재해 대비", "법률 및 산재보상", "작업장 안전수칙"];
-        const masterBank = [];
-
-        // 데이터 템플릿 항목별 확장 정의 (140개 서로 다른 고유 문항 생성)
         const templates = [
-            // 카테고리 0: 위험성평가
+            // 카테고리 0: 위험성평가 (20문항)
             {
                 cat: "위험성평가",
                 items: [
@@ -138,7 +68,7 @@
                     ["위험성평가 최종 승인권자는 누구인가?", ["사업주(대표자)", "신입 사원", "외부 납품업체 기사", "노조 종원"], 0, "사업장의 총괄 책임자인 사업주가 최종 승인해야 합니다."]
                 ]
             },
-            // 카테고리 1: 아차사고 예방
+            // 카테고리 1: 아차사고 예방 (20문항)
             {
                 cat: "아차사고 예방",
                 items: [
@@ -164,7 +94,7 @@
                     ["일터에서 아차사고 감소가 가져오는 궁극적인 효과는?", ["산업재해 근절 및 안전한 일터 조성", "생산 중단", "안전관리자 해고", "제품 품질 저하"], 0, "아차사고 축소 및 개선은 궁극적으로 재해 없는 안전한 환경을 만듭니다."]
                 ]
             },
-            // 카테고리 2: 추락 방지 및 안전대
+            // 카테고리 2: 추락 방지 및 안전대 (20문항)
             {
                 cat: "추락 방지 및 안전대",
                 items: [
@@ -190,7 +120,7 @@
                     ["추락과 낙하의 차이점으로 옳은 것은?", ["추락은 사람이 떨어지는 것, 낙하는 물체가 떨어지는 것", "둘 다 동일함", "추락은 물체, 낙하는 사람", "추락은 옆으로 넘어지는 것"], 0, "추락은 사람이 밑으로 떨어지는 것이고, 낙하는 물건이 떨어지는 것입니다."]
                 ]
             },
-            // 카테고리 3: 화재 대응 및 대피
+            // 카테고리 3: 화재 대응 및 대피 (20문항)
             {
                 cat: "화재 대응 및 대피",
                 items: [
@@ -216,7 +146,7 @@
                     ["사업장 내 화재 예방을 위해 가연성 물질 보관 시 지켜야 할 사항은?", ["화기 격리 및 환기가 잘 되는 전용 보관창고 보관", "열기구 바로 옆 배치", "직사광선에 방치", "통로 중앙에 쌓아두기"], 0, "가연물은 화기 및 열원과 격리된 안전한 장소에 보관해야 합니다."]
                 ]
             },
-            // 카테고리 4: 자연재해 대비
+            // 카테고리 4: 자연재해 대비 (20문항)
             {
                 cat: "자연재해 대비",
                 items: [
@@ -242,7 +172,7 @@
                     ["자연재해 발생 후 작업 재개 전 반드시 시행해야 하는 절차는?", ["지반, 구조물, 전기 등의 안전점검 및 위험요인 제거", "점검 없이 즉시 가동", "청소만 하고 작업", "서류 작성만 완료"], 0, "재해 후 손상된 시설물이나 지반을 사전 점검한 후 작업을 재개합니다."]
                 ]
             },
-            // 카테고리 5: 법률 및 산재보상
+            // 카테고리 5: 법률 및 산재보상 (20문항)
             {
                 cat: "법률 및 산재보상",
                 items: [
@@ -268,7 +198,7 @@
                     ["중대재해 발생 시 사업주의 즉시 보고 의무 기관은?", ["관할 지방고용노동관서", "국세청", "한국은행", "동주민센터"], 0, "중대재해 발생 즉시 관할 고용노동관서에 보고해야 합니다."]
                 ]
             },
-            // 카테고리 6: 작업장 안전수칙
+            // 카테고리 6: 작업장 안전수칙 (20문항)
             {
                 cat: "작업장 안전수칙",
                 items: [
@@ -296,11 +226,12 @@
             }
         ];
 
-        // 140문항 마스터 데이터 구축
+        // 140문항 마스터 데이터 자동 조합
+        const studyData = [];
         let idCounter = 1;
         templates.forEach(t => {
             t.items.forEach(item => {
-                masterBank.push({
+                studyData.push({
                     id: idCounter++,
                     category: t.cat,
                     q: item[0],
@@ -311,219 +242,49 @@
             });
         });
 
-        let currentUser = { name: '', dept: '' };
-        let selectedQuestions = [];
-        let userAnswers = [];
-        let currentIndex = 0;
-        let timerInterval = null;
-        let secondsLeft = 0;
-
-        function shuffleArray(arr) {
-            const a = [...arr];
-            for (let i = a.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [a[i], a[j]] = [a[j], a[i]];
-            }
-            return a;
-        }
-
-        function startQuiz(e) {
-            e.preventDefault();
-            const name = document.getElementById('user-name').value.trim();
-            const dept = document.getElementById('user-dept').value.trim();
-            const count = 20;
-
-            if (!name || !dept) return alert('성명과 지사를 입력해 주세요.');
-
-            currentUser = { name, dept };
-            document.getElementById('user-display-name').innerText = name + " 님";
-            document.getElementById('user-display-dept').innerText = "지사: " + dept;
-            document.getElementById('user-info').classList.remove('hidden');
-
-            // 140개 중 중복 없이 무작위 20문항 추출
-            const pool = shuffleArray(masterBank);
-            selectedQuestions = pool.slice(0, count).map(q => {
-                const optsWithIdx = q.options.map((opt, idx) => ({ text: opt, isCorrect: idx === q.answer }));
-                const shuffledOpts = shuffleArray(optsWithIdx);
-                return {
-                    category: q.category,
-                    q: q.q,
-                    options: shuffledOpts.map(o => o.text),
-                    answer: shuffledOpts.findIndex(o => o.isCorrect),
-                    explanation: q.explanation
-                };
-            });
-
-            userAnswers = new Array(count).fill(null);
-            currentIndex = 0;
-            document.getElementById('total-num').innerText = count;
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-
-            startTimer(20 * 60);
-            renderQuestion();
-        }
-
-        function startTimer(duration) {
-            secondsLeft = duration;
-            updateTimerDisplay();
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                secondsLeft--;
-                updateTimerDisplay();
-                if (secondsLeft <= 0) {
-                    clearInterval(timerInterval);
-                    alert('시험 시간이 종료되어 자동으로 제출됩니다.');
-                    finishQuiz();
-                }
-            }, 1000);
-        }
-
-        function updateTimerDisplay() {
-            const m = Math.floor(secondsLeft / 60);
-            const s = secondsLeft % 60;
-            document.getElementById('timer').innerText = `남은 시간: ${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }
-
-        function selectOption(idx) {
-            userAnswers[currentIndex] = idx;
-            renderQuestion();
-        }
-
-        function renderQuestion() {
-            const qData = selectedQuestions[currentIndex];
-            document.getElementById('current-num').innerText = currentIndex + 1;
-            document.getElementById('question-category').innerText = qData.category;
-            document.getElementById('question-text').innerText = `${currentIndex + 1}. ${qData.q}`;
-
-            const pct = ((currentIndex + 1) / selectedQuestions.length) * 100;
-            document.getElementById('progress-bar').style.width = `${pct}%`;
-
-            const container = document.getElementById('options-container');
+        function renderData(data) {
+            const container = document.getElementById('questions-container');
             container.innerHTML = '';
+            document.getElementById('question-count-badge').innerText = `총 ${data.length}문항 표시 중`;
 
-            qData.options.forEach((optText, i) => {
-                const isSelected = userAnswers[currentIndex] === i;
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = `w-full text-left p-4 rounded-xl border transition flex items-center justify-between cursor-pointer ${
-                    isSelected ? 'border-blue-600 bg-blue-50 text-blue-900 font-semibold shadow-sm' : 'border-slate-200 bg-white hover:bg-slate-50 text-slate-700'
-                }`;
-                btn.onclick = () => selectOption(i);
-                btn.innerHTML = `
-                    <div class="flex items-center space-x-3 pointer-events-none">
-                        <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500'}">${i + 1}</span>
-                        <span class="text-sm md:text-base">${optText}</span>
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl p-5 shadow-sm border border-slate-200 page-break';
+                
+                let optsHTML = '';
+                item.options.forEach((opt, idx) => {
+                    const isCorrect = idx === item.answer;
+                    optsHTML += `
+                        <div class="p-2.5 rounded-lg border text-xs md:text-sm flex justify-between items-center ${isCorrect ? 'bg-emerald-50 border-emerald-300 text-emerald-900 font-semibold' : 'bg-slate-50 border-slate-200 text-slate-700'}">
+                            <span>${idx + 1}. ${opt}</span>
+                            ${isCorrect ? '<span class="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded">정답</span>' : ''}
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[11px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">${item.category}</span>
+                        <span class="text-xs font-semibold text-slate-400">No. ${item.id}</span>
+                    </div>
+                    <h3 class="text-sm md:text-base font-bold text-slate-900 mb-3">${item.id}. ${item.q}</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-3">${optsHTML}</div>
+                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-2.5 text-xs text-blue-950">
+                        <span class="font-bold text-blue-700 block mb-0.5">💡 해설</span>
+                        ${item.explanation}
                     </div>
                 `;
-                container.appendChild(btn);
-            });
-
-            document.getElementById('prev-btn').style.visibility = currentIndex === 0 ? 'hidden' : 'visible';
-            const nextBtn = document.getElementById('next-btn');
-            if (currentIndex === selectedQuestions.length - 1) {
-                nextBtn.innerText = '제출하기';
-                nextBtn.className = 'px-6 py-2.5 rounded-lg bg-emerald-600 text-white font-medium text-sm hover:bg-emerald-700 transition shadow cursor-pointer';
-            } else {
-                nextBtn.innerText = '다음 문제';
-                nextBtn.className = 'px-6 py-2.5 rounded-lg bg-blue-600 text-white font-medium text-sm hover:bg-blue-700 transition shadow cursor-pointer';
-            }
-        }
-
-        function prevQuestion() { 
-            if (currentIndex > 0) { 
-                currentIndex--; 
-                renderQuestion(); 
-            } 
-        }
-
-        function nextQuestion() {
-            if (currentIndex < selectedQuestions.length - 1) {
-                currentIndex++;
-                renderQuestion();
-            } else {
-                if (userAnswers.includes(null) && !confirm('미풀이 문항이 존재합니다. 제출하시겠습니까?')) return;
-                finishQuiz();
-            }
-        }
-
-        function finishQuiz() {
-            if (timerInterval) clearInterval(timerInterval);
-            let correct = 0;
-            selectedQuestions.forEach((q, i) => { if (userAnswers[i] === q.answer) correct++; });
-            const total = selectedQuestions.length;
-            const score = Math.round((correct / total) * 100);
-
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
-
-            const icon = document.getElementById('result-icon');
-            if (score >= 70) {
-                icon.className = 'w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4';
-                icon.innerHTML = '<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>';
-                document.getElementById('result-title').innerText = '안전 숙지도 평가 합격';
-                document.getElementById('result-subtitle').innerText = `${currentUser.name} 님(${currentUser.dept}), 안전 규정을 훌륭히 숙지하셨습니다.`;
-            } else {
-                icon.className = 'w-20 h-20 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4';
-                icon.innerHTML = '<svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
-                document.getElementById('result-title').innerText = '재시험 대상';
-                document.getElementById('result-subtitle').innerText = '안전수칙 해설집 복습 후 재응시 바랍니다.';
-            }
-
-            document.getElementById('score-text').innerText = `${score}점`;
-            document.getElementById('accuracy-text').innerText = `${Math.round((correct/total)*100)}%`;
-
-            sendDataToGoogleSheet(score, correct, total);
-        }
-
-        function sendDataToGoogleSheet(score, correct, total){
-            const statusEl = document.getElementById('submit-status');
-            if (!GOOGLE_SCRIPT_URL) {
-                statusEl.innerText = "※ 서버 연동 URL이 설정되지 않아 데이터가 로컬에만 저장됩니다.";
-                return;
-            }
-
-            statusEl.innerText = "⏳ 결과 데이터를 관리자 구글 스프레드시트로 전송 중...";
-
-            const formData = new URLSearchParams();
-            formData.append("timestamp", new Date().toLocaleString());
-            formData.append("name", currentUser.name);
-            formData.append("dept", currentUser.dept);
-            formData.append("score", score);
-            formData.append("correctCount", correct);
-            formData.append("totalCount", total);
-
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                },
-                body: formData.toString()
-            })
-            .then(() => {
-                statusEl.innerText = "✅ 시험 결과가 관리자 구글 스프레드시트에 성공적으로 취합되었습니다.";
-                statusEl.className = "mb-6 text-xs font-medium text-emerald-600";
-            })
-            .catch(err => {
-                console.error(err);
-                statusEl.innerText = "❌ 결과 전송 중 오류가 발생했습니다.";
-                statusEl.className = "mb-6 text-xs font-medium text-rose-600";
+                container.appendChild(card);
             });
         }
 
-        function downloadResult() {
-            let txt = `[산업안전 20문항 평가 결과서]\n-----------------------------------\n성명: ${currentUser.name}\n지사/소속: ${currentUser.dept}\n일시: ${new Date().toLocaleString()}\n점수: ${document.getElementById('score-text').innerText}\n-----------------------------------\n\n`;
-            selectedQuestions.forEach((q, i) => {
-                const uAns = userAnswers[i];
-                txt += `${i + 1}. ${q.q}\n - 제출: ${uAns !== null ? q.options[uAns] : '미제출'} (${uAns === q.answer ? '정답' : '오답'})\n - 정답: ${q.options[q.answer]}\n - 해설: ${q.explanation}\n\n`;
-            });
-            const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `안전평가결과_${currentUser.dept}_${currentUser.name}.txt`;
-            link.click();
+        function filterQuestions() {
+            const keyword = document.getElementById('search-input').value.toLowerCase();
+            const filtered = studyData.filter(d => d.q.toLowerCase().includes(keyword) || d.category.toLowerCase().includes(keyword));
+            renderData(filtered);
         }
+
+        renderData(studyData);
     </script>
 </body>
 </html>
